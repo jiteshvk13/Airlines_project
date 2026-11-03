@@ -1,0 +1,27 @@
+artifact_path: file:C:/Users/JITESH/Desktop/Mlops Tools Practise/Airlines/mlruns/1/models/m-7891ed0f6a914613957d712f0c11f270/artifacts
+flavors:
+  lightgbm:
+    code: null
+    data: model.skops
+    lgb_version: 4.7.0
+    model_class: lightgbm.sklearn.LGBMClassifier
+    serialization_format: skops
+    skops_trusted_types:
+    - collections.OrderedDict
+    - lightgbm.sklearn.LGBMRegressor
+    - lightgbm.basic.Booster
+    - lightgbm.sklearn.LGBMClassifier
+  python_function:
+    data: model.skops
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.lightgbm
+    python_version: 3.13.5
+mlflow_version: 3.17.2
+model_id: m-7891ed0f6a914613957d712f0c11f270
+model_size_bytes: 1079650
+model_uuid: m-7891ed0f6a914613957d712f0c11f270
+prompts: null
+run_id: 1a7f36982e6f4e13abd8cfab11579d23
+utc_time_created: '2026-10-28 17:58:33.921418'

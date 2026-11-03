@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkyPredict | Airline Satisfaction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <header class="hero">
+            <div class="brand">
+                <span class="plane-icon">✈</span>
+                <span>SkyPredict</span>
+            </div>
+
+            <p class="eyebrow">MACHINE LEARNING · AIRLINE ANALYTICS</p>
+
+            <h1>Predict the Passenger Experience</h1>
+
+            <p class="hero-description">
+                Enter flight details and service ratings to predict
+                whether a passenger will be satisfied with their journey.
+            </p>
+        </header>
+
+        <main class="form-card">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Passenger Details</h2>
+                    <p>Complete the details below to generate a prediction.</p>
+                </div>
+                <span class="ai-badge">AI Powered</span>
+            </div>
+
+            <form method="POST" action="/">
+
+                <div class="form-section">
+                    <h3>01 &nbsp; Flight Information</h3>
+
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label for="distance">Flight Distance</label>
+                            <input id="distance" type="number" name="Flight Distance" min="0" step="any"
+                                placeholder="e.g. 1200" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="departure">Departure Delay (minutes)</label>
+                            <input id="departure" type="number" name="Departure Delay" min="0" step="any"
+                                placeholder="e.g. 15" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="arrival">Arrival Delay (minutes)</label>
+                            <input id="arrival" type="number" name="Arrival Delay" min="0" step="any"
+                                placeholder="e.g. 10" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="travel-type">Type of Travel</label>
+                            <select id="travel-type" name="Type of Travel" required>
+                                <option value="" disabled selected>Select travel type</option>
+                                <option value="0">Business travel</option>
+                                <option value="1">Personal travel</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="travel-class">Travel Class</label>
+                            <select id="travel-class" name="Class" required>
+                                <option value="" disabled selected>Select class</option>
+                                <option value="0">Business</option>
+                                <option value="1">Eco</option>
+                                <option value="2">Eco Plus</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>02 &nbsp; Passenger Service Ratings</h3>
+                    <p class="section-description">
+                        Rate each service from 0 (lowest) to 5 (highest).
+                    </p>
+
+                    <div class="form-grid">
+
+                        {% set rating_fields = [
+                        ("Online Boarding", "Online boarding"),
+                        ("Inflight wifi service", "Inflight Wi-Fi"),
+                        ("Inflight entertainment", "Inflight entertainment"),
+                        ("Seat comfort", "Seat comfort"),
+                        ("Leg room service", "Legroom service"),
+                        ("On-board service", "On-board service"),
+                        ("Cleanliness", "Cleanliness"),
+                        ("Ease of Online Booking", "Online booking")
+                        ] %}
+
+                        {% for field_name, label_text in rating_fields %}
+                        <div class="field">
+                            <label for="{{ field_name }}">{{ label_text }}</label>
+                            <select id="{{ field_name }}" name="{{ field_name }}" required>
+                                <option value="" disabled selected>Select rating</option>
+                                <option value="0">0 — Lowest</option>
+                                <option value="1">1 — Very poor</option>
+                                <option value="2">2 — Poor</option>
+                                <option value="3">3 — Average</option>
+                                <option value="4">4 — Good</option>
+                                <option value="5">5 — Excellent</option>
+                            </select>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <button type="submit" class="predict-button">
+                    Predict Passenger Satisfaction
+                    <span aria-hidden="true">→</span>
+                </button>
+
+            </form>
+
+            {% if prediction is not none %}
+            <div class="result-card {% if prediction == 1 %}success{% else %}warning{% endif %}">
+                <span class="result-icon">
+                    {% if prediction == 1 %}✓{% else %}↗{% endif %}
+                </span>
+                <div>
+                    <p class="result-label">PREDICTION RESULT</p>
+                    <h2>
+                        {% if prediction == 1 %}
+                        Passenger Satisfied
+                        {% elif prediction == 0 %}
+                        Passenger Not Satisfied
+                        {% else %}
+                        Prediction: {{ prediction }}
+                        {% endif %}
+                    </h2>
+                    <p>Result generated by your trained machine learning model.</p>
+                </div>
+            </div>
+
+            {% elif error %}
+            <div class="error-card">
+                <strong>Prediction failed</strong>
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+
+        </main>
+
+        <footer>
+            <p>SkyPredict · Airline Passenger Satisfaction Prediction</p>
+            <p>Powered by FastAPI and LightGBM</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>

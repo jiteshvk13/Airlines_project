@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: mlops
+Version: 0.1
+Summary: mlops Project
+Author: Jitesh
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: setuptools
+Requires-Dist: mysql-connector-python
+Requires-Dist: scikit-learn
+Requires-Dist: lightgbm
+Requires-Dist: torch
+Requires-Dist: xgboost
+Requires-Dist: tensorboard
+Requires-Dist: mlflow
+Requires-Dist: dvc
+Requires-Dist: fastapi
+Requires-Dist: python-multipart
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary
