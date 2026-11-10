@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script {
                     echo 'Scanning Docker Image...'
-                    sh "trivy image ${DOCKERHUB_REPOSITORY}:latest --format table -o trivy-image-scan-report.html"
+                    sh "trivy image --timeout 15m ${DOCKERHUB_REPOSITORY}:latest --format table -o trivy-image-scan-report.txt"
                 }
             }
         }
