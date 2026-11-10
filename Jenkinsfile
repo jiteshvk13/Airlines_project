@@ -3,6 +3,9 @@ pipeline {
     
     environment {
         VENV_DIR = 'venv'
+        DOCKERHUB_CREDENTIAL_ID = 'mlops-airlines'
+        DOCKERHUB_REGISTRY = 'https://registry.hub.docker.com'
+        DOCKERHUB_REPOSITORY = 'jiteshvk13/mlops-airlines'
     }
     
     stages {
@@ -57,7 +60,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker Image...'
-                    docker.build("mlops")
+                    dockerImage = docker.build("${DOCKERHUB_REPOSITORY}:latest")
                 }
             }
         }
@@ -66,7 +69,17 @@ pipeline {
             steps {
                 script {
                     echo 'Scanning Docker Image...'
-                    sh "trivy image mlops:latest --format table -o trivy-image-scan-report.html"
+                    sh "trivy image ${DOCKERHUB_REPOSITORY}:latest --format table -o trivy-image-scan-report.html"
+                }
+            }
+        }
+        stage('Pushing Docker Image') {
+            steps {
+                script {
+                    echo 'Pushing Docker Image...'
+                    docker.withRegistry("${DOCKERHUB_REGISTRY}", "${DOCKERHUB_CREDENTIAL_ID}"){
+                        dockerImage.push('latest')
+                    }
                 }
             }
         }
